@@ -1,4 +1,4 @@
-const API = "";   // same origin
+const API = "";
 
 let currentFileId = null;
 let currentDuration = 0;
@@ -8,7 +8,15 @@ document.getElementById("file-input").addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
-  showLoading("اپلوڈ ہو رہی ہے...");
+  // فائل سائز چیک (100 MB limit)
+  const sizeMB = file.size / (1024 * 1024);
+  if (sizeMB > 100) {
+    if (!confirm(`File size is ${sizeMB.toFixed(1)} MB. Large files may be slow. Continue?`)) {
+      return;
+    }
+  }
+
+  showLoading(`Uploading (${sizeMB.toFixed(1)} MB)...`);
 
   const formData = new FormData();
   formData.append("file", file);
@@ -26,20 +34,18 @@ document.getElementById("file-input").addEventListener("change", async (e) => {
     document.getElementById("file-name").textContent = data.filename;
     document.getElementById("file-duration").textContent = data.duration.toFixed(2);
 
-    // Preview
     document.getElementById("preview-video").src = data.url;
     document.getElementById("preview-section").classList.remove("hidden");
     document.getElementById("upload-info").classList.remove("hidden");
     document.getElementById("actions-section").classList.remove("hidden");
     document.getElementById("result-section").classList.add("hidden");
 
-    // Trim defaults
     document.getElementById("trim-end").value = data.duration.toFixed(1);
 
     hideLoading();
   } catch (err) {
     hideLoading();
-    alert("اپلوڈ ناکام: " + err.message);
+    alert("Upload failed: " + err.message);
   }
 });
 
@@ -62,11 +68,11 @@ async function applyTrim() {
   const end = parseFloat(document.getElementById("trim-end").value);
 
   if (end <= start) {
-    alert("اختتام شروع سے بڑا ہونا چاہیے");
+    alert("End must be greater than Start");
     return;
   }
 
-  showLoading("کاٹا جا رہا ہے...");
+  showLoading("Trimming...");
   try {
     const res = await fetch(`${API}/api/trim`, {
       method: "POST",
@@ -81,7 +87,7 @@ async function applyTrim() {
     showResult(data.url);
   } catch (err) {
     hideLoading();
-    alert("ناکام: " + err.message);
+    alert("Failed: " + err.message);
   }
 }
 
@@ -90,7 +96,7 @@ async function applySpeed() {
   if (!currentFileId) return;
   const speed = parseFloat(document.getElementById("speed-slider").value);
 
-  showLoading("رفتار تبدیل ہو رہی ہے...");
+  showLoading("Changing speed...");
   try {
     const res = await fetch(`${API}/api/speed`, {
       method: "POST",
@@ -104,7 +110,7 @@ async function applySpeed() {
     showResult(data.url);
   } catch (err) {
     hideLoading();
-    alert("ناکام: " + err.message);
+    alert("Failed: " + err.message);
   }
 }
 
@@ -113,7 +119,7 @@ async function applyFilter() {
   if (!currentFileId) return;
   const preset = document.getElementById("filter-preset").value;
 
-  showLoading("فلٹر لگ رہا ہے...");
+  showLoading("Applying filter...");
   try {
     const res = await fetch(`${API}/api/filter`, {
       method: "POST",
@@ -127,7 +133,7 @@ async function applyFilter() {
     showResult(data.url);
   } catch (err) {
     hideLoading();
-    alert("ناکام: " + err.message);
+    alert("Failed: " + err.message);
   }
 }
 
@@ -136,11 +142,11 @@ async function applyText() {
   if (!currentFileId) return;
   const text = document.getElementById("text-input").value.trim();
   if (!text) {
-    alert("ٹیکسٹ لکھیں");
+    alert("Please enter text");
     return;
   }
 
-  showLoading("ٹیکسٹ لگ رہا ہے...");
+  showLoading("Adding text...");
   try {
     const res = await fetch(`${API}/api/text`, {
       method: "POST",
@@ -157,7 +163,7 @@ async function applyText() {
     showResult(data.url);
   } catch (err) {
     hideLoading();
-    alert("ناکام: " + err.message);
+    alert("Failed: " + err.message);
   }
 }
 
@@ -178,7 +184,7 @@ function showResult(url) {
 }
 
 // ==================== LOADING ====================
-function showLoading(text = "پروسیس ہو رہا ہے...") {
+function showLoading(text = "Processing...") {
   document.getElementById("loading-text").textContent = text;
   document.getElementById("loading").classList.remove("hidden");
 }
@@ -188,5 +194,5 @@ function hideLoading() {
 }
 
 function toggleMenu() {
-  alert("🚀 DV Studio Mobile\n\nاپلوڈ کریں → عمل منتخب کریں → ڈاؤن لوڈ");
+  alert("🚀 DV Studio Mobile\n\n1. Upload\n2. Choose Action\n3. Download");
 }

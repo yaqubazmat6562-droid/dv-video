@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,60 +16,59 @@
   <button class="menu-btn" onclick="toggleMenu()">☰</button>
 </header>
 
-<!-- Main Content -->
 <main class="app-main">
 
   <!-- Upload Section -->
   <section id="upload-section" class="card">
-    <h2>📤 ویڈیو اپلوڈ کریں</h2>
+    <h2>📤 Upload Video</h2>
     <label for="file-input" class="upload-btn">
       <span class="upload-icon">📁</span>
-      <span>فائل منتخب کریں</span>
+      <span>Choose File</span>
     </label>
     <input type="file" id="file-input" accept="video/*" hidden>
 
     <div id="upload-info" class="hidden">
-      <p><strong>فائل:</strong> <span id="file-name"></span></p>
-      <p><strong>دورانیہ:</strong> <span id="file-duration"></span> سیکنڈ</p>
+      <p><strong>File:</strong> <span id="file-name"></span></p>
+      <p><strong>Duration:</strong> <span id="file-duration"></span> sec</p>
     </div>
   </section>
 
   <!-- Preview -->
   <section id="preview-section" class="card hidden">
-    <h2>🎥 پیش نظارہ</h2>
+    <h2>🎥 Preview</h2>
     <video id="preview-video" controls playsinline></video>
   </section>
 
   <!-- Actions -->
   <section id="actions-section" class="card hidden">
-    <h2>🛠 عمل منتخب کریں</h2>
+    <h2>🛠 Select Action</h2>
 
     <div class="action-grid">
-      <button class="action-btn" onclick="showPanel('trim')">✂️ کاٹیں</button>
-      <button class="action-btn" onclick="showPanel('speed')">⚡ رفتار</button>
-      <button class="action-btn" onclick="showPanel('filter')">🎨 فلٹر</button>
-      <button class="action-btn" onclick="showPanel('text')">📝 ٹیکسٹ</button>
+      <button class="action-btn" onclick="showPanel('trim')">✂️ Trim</button>
+      <button class="action-btn" onclick="showPanel('speed')">⚡ Speed</button>
+      <button class="action-btn" onclick="showPanel('filter')">🎨 Filter</button>
+      <button class="action-btn" onclick="showPanel('text')">📝 Text</button>
     </div>
 
     <!-- Trim Panel -->
     <div id="panel-trim" class="panel hidden">
-      <h3>✂️ ویڈیو کاٹیں</h3>
-      <label>شروع (سیکنڈ): <input type="number" id="trim-start" value="0" step="0.1" min="0"></label>
-      <label>اختتام (سیکنڈ): <input type="number" id="trim-end" value="5" step="0.1" min="0"></label>
-      <button class="primary-btn" onclick="applyTrim()">✅ لاگو کریں</button>
+      <h3>✂️ Trim Video</h3>
+      <label>Start (sec): <input type="number" id="trim-start" value="0" step="0.1" min="0"></label>
+      <label>End (sec): <input type="number" id="trim-end" value="5" step="0.1" min="0"></label>
+      <button class="primary-btn" onclick="applyTrim()">✅ Apply</button>
     </div>
 
     <!-- Speed Panel -->
     <div id="panel-speed" class="panel hidden">
-      <h3>⚡ رفتار</h3>
+      <h3>⚡ Speed</h3>
       <input type="range" id="speed-slider" min="0.25" max="4" step="0.25" value="1">
-      <p>رفتار: <span id="speed-value">1.0</span>x</p>
-      <button class="primary-btn" onclick="applySpeed()">✅ لاگو کریں</button>
+      <p>Speed: <span id="speed-value">1.0</span>x</p>
+      <button class="primary-btn" onclick="applySpeed()">✅ Apply</button>
     </div>
 
     <!-- Filter Panel -->
     <div id="panel-filter" class="panel hidden">
-      <h3>🎨 فلٹر</h3>
+      <h3>🎨 Filter</h3>
       <select id="filter-preset">
         <option value="None">None</option>
         <option value="Cinematic">Cinematic</option>
@@ -80,40 +79,40 @@
         <option value="Vivid">Vivid</option>
         <option value="Dramatic">Dramatic</option>
       </select>
-      <button class="primary-btn" onclick="applyFilter()">✅ لاگو کریں</button>
+      <button class="primary-btn" onclick="applyFilter()">✅ Apply</button>
     </div>
 
     <!-- Text Panel -->
     <div id="panel-text" class="panel hidden">
-      <h3>📝 ٹیکسٹ</h3>
-      <input type="text" id="text-input" placeholder="یہاں ٹیکسٹ لکھیں">
+      <h3>📝 Text Overlay</h3>
+      <input type="text" id="text-input" placeholder="Enter text...">
       <select id="text-pos">
-        <option value="top">اوپر</option>
-        <option value="middle">درمیان</option>
-        <option value="bottom">نیچے</option>
+        <option value="top">Top</option>
+        <option value="middle">Middle</option>
+        <option value="bottom">Bottom</option>
       </select>
       <select id="text-color">
-        <option value="white">سفید</option>
-        <option value="yellow">پیلا</option>
-        <option value="red">سرخ</option>
-        <option value="black">کالا</option>
+        <option value="white">White</option>
+        <option value="yellow">Yellow</option>
+        <option value="red">Red</option>
+        <option value="black">Black</option>
       </select>
-      <button class="primary-btn" onclick="applyText()">✅ لاگو کریں</button>
+      <button class="primary-btn" onclick="applyText()">✅ Apply</button>
     </div>
 
   </section>
 
   <!-- Result -->
   <section id="result-section" class="card hidden">
-    <h2>✅ نتیجہ</h2>
+    <h2>✅ Result</h2>
     <video id="result-video" controls playsinline></video>
-    <a id="download-btn" class="primary-btn" download>⬇️ ڈاؤن لوڈ</a>
+    <a id="download-btn" class="primary-btn" download>⬇️ Download</a>
   </section>
 
   <!-- Loading -->
   <div id="loading" class="loading-overlay hidden">
     <div class="spinner"></div>
-    <p id="loading-text">پروسیس ہو رہا ہے...</p>
+    <p id="loading-text">Processing...</p>
   </div>
 
 </main>

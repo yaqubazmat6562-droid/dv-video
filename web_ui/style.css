@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: -apple-system, "Segoe UI", "Noto Nastaliq Urdu", sans-serif;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
   background: #1a1a1a;
   color: #eee;
   min-height: 100vh;
@@ -210,7 +210,6 @@ body {
   color: #ccc;
 }
 
-/* Touch devices - بڑے بٹن */
 @media (max-width: 768px) {
   .action-btn {
     padding: 18px;
