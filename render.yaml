@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: dv-studio-mobile
+    env: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
