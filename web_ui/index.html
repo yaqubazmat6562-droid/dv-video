@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#7c5cff">
+<title>DV Studio Mobile</title>
+<link rel="manifest" href="/static/manifest.json">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header class="app-header">
+  <div class="logo">🎬 DV Studio</div>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+</header>
+
+<!-- Main Content -->
+<main class="app-main">
+
+  <!-- Upload Section -->
+  <section id="upload-section" class="card">
+    <h2>📤 ویڈیو اپلوڈ کریں</h2>
+    <label for="file-input" class="upload-btn">
+      <span class="upload-icon">📁</span>
+      <span>فائل منتخب کریں</span>
+    </label>
+    <input type="file" id="file-input" accept="video/*" hidden>
+
+    <div id="upload-info" class="hidden">
+      <p><strong>فائل:</strong> <span id="file-name"></span></p>
+      <p><strong>دورانیہ:</strong> <span id="file-duration"></span> سیکنڈ</p>
+    </div>
+  </section>
+
+  <!-- Preview -->
+  <section id="preview-section" class="card hidden">
+    <h2>🎥 پیش نظارہ</h2>
+    <video id="preview-video" controls playsinline></video>
+  </section>
+
+  <!-- Actions -->
+  <section id="actions-section" class="card hidden">
+    <h2>🛠 عمل منتخب کریں</h2>
+
+    <div class="action-grid">
+      <button class="action-btn" onclick="showPanel('trim')">✂️ کاٹیں</button>
+      <button class="action-btn" onclick="showPanel('speed')">⚡ رفتار</button>
+      <button class="action-btn" onclick="showPanel('filter')">🎨 فلٹر</button>
+      <button class="action-btn" onclick="showPanel('text')">📝 ٹیکسٹ</button>
+    </div>
+
+    <!-- Trim Panel -->
+    <div id="panel-trim" class="panel hidden">
+      <h3>✂️ ویڈیو کاٹیں</h3>
+      <label>شروع (سیکنڈ): <input type="number" id="trim-start" value="0" step="0.1" min="0"></label>
+      <label>اختتام (سیکنڈ): <input type="number" id="trim-end" value="5" step="0.1" min="0"></label>
+      <button class="primary-btn" onclick="applyTrim()">✅ لاگو کریں</button>
+    </div>
+
+    <!-- Speed Panel -->
+    <div id="panel-speed" class="panel hidden">
+      <h3>⚡ رفتار</h3>
+      <input type="range" id="speed-slider" min="0.25" max="4" step="0.25" value="1">
+      <p>رفتار: <span id="speed-value">1.0</span>x</p>
+      <button class="primary-btn" onclick="applySpeed()">✅ لاگو کریں</button>
+    </div>
+
+    <!-- Filter Panel -->
+    <div id="panel-filter" class="panel hidden">
+      <h3>🎨 فلٹر</h3>
+      <select id="filter-preset">
+        <option value="None">None</option>
+        <option value="Cinematic">Cinematic</option>
+        <option value="Vintage">Vintage</option>
+        <option value="B&W">B&W</option>
+        <option value="Warm">Warm</option>
+        <option value="Cool">Cool</option>
+        <option value="Vivid">Vivid</option>
+        <option value="Dramatic">Dramatic</option>
+      </select>
+      <button class="primary-btn" onclick="applyFilter()">✅ لاگو کریں</button>
+    </div>
+
+    <!-- Text Panel -->
+    <div id="panel-text" class="panel hidden">
+      <h3>📝 ٹیکسٹ</h3>
+      <input type="text" id="text-input" placeholder="یہاں ٹیکسٹ لکھیں">
+      <select id="text-pos">
+        <option value="top">اوپر</option>
+        <option value="middle">درمیان</option>
+        <option value="bottom">نیچے</option>
+      </select>
+      <select id="text-color">
+        <option value="white">سفید</option>
+        <option value="yellow">پیلا</option>
+        <option value="red">سرخ</option>
+        <option value="black">کالا</option>
+      </select>
+      <button class="primary-btn" onclick="applyText()">✅ لاگو کریں</button>
+    </div>
+
+  </section>
+
+  <!-- Result -->
+  <section id="result-section" class="card hidden">
+    <h2>✅ نتیجہ</h2>
+    <video id="result-video" controls playsinline></video>
+    <a id="download-btn" class="primary-btn" download>⬇️ ڈاؤن لوڈ</a>
+  </section>
+
+  <!-- Loading -->
+  <div id="loading" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p id="loading-text">پروسیس ہو رہا ہے...</p>
+  </div>
+
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
